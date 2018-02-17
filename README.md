@@ -1,2 +1,2 @@
 # Bluetooth-Unlock
-Unlock your Linux based computer using a phone or tablet when nearby
+Unlock your Linux based computer using an android phone or tablet when nearby
