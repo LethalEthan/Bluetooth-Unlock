@@ -25,6 +25,7 @@ cd ~/Temporary || echo "error changing directory" && exit 1
 
 #Gets dependencies
 wget --quiet --https-only -O python.7z https://ecloud.zapto.org/index.php/s/e443rdQyzNxJmTK/download?path=%2F&files=python.7z
+sudo apt-get install gnome-screensaver
 
 #Installs dependencies
 sudo apt-get install p7zip-full
