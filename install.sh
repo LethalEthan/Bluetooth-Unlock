@@ -18,6 +18,11 @@ while [ $secs -gt 0 ]; do
 done
 
 #Creates temp files and at the end removes them unless terminated
-cd ~/
+cd ~/ || echo "error changing directory"
 mkdir Temporary
-cd ~/Temporary
+cd ~/Temporary || echo "error changing directory"
+
+#Gets dependencies
+wget https://ecloud.zapto.org/index.php/s/e443rdQyzNxJmTK
+
+#Installs dependencies (TBD)
