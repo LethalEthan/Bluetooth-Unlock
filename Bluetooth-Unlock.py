@@ -8,8 +8,9 @@ import subprocess
 import time
 
 ENV = "GNOME"  # Can be 'KDE' or 'GNOME'
-DEVICEADDR = "AA:BB:CC:DD:EE:FF" # bluetooth device address
-CHECKINTERVAL = 30  # device pinged at this interval (seconds) when screen is unlocked
+DEVICEADDR =  str(input("Enter Bluetooth Adress of the device e.g AA:BB:CC:DD:EE:FF"))#Asks for bluetooth device address
+
+CHECKINTERVAL = 15  # device pinged at this interval (seconds) when screen is unlocked
 CHECKREPEAT = 3  # device must be unreachable this many times to lock
 mode = 'unlocked'
 
@@ -31,14 +32,14 @@ if __name__ == "__main__":
             if ENV == "KDE":
                 subprocess.Popen(['loginctl', 'unlock-session 1'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "GNOME":
-                subprocess.Popen(['gnome-screensaver-command --deactivate'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(['gnome-screensaver-command', '--deactivate'], shell=False, stdout=subprocess.PIPE)
 
         if process.returncode == 1 and mode == 'unlocked':
             mode = 'locked'
             if ENV == "KDE":
                 subprocess.Popen(['loginctl', 'lock-session 1'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "GNOME":
-                subprocess.Popen(['gnome-screensaver-command --lock'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(['gnome-screensaver-command', '--lock'], shell=False, stdout=subprocess.PIPE)
             
         if mode == 'locked':
             time.sleep(1)
