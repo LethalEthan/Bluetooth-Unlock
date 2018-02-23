@@ -7,8 +7,15 @@ from optparse import OptionParser
 import subprocess
 import time
 
+#Detects python version
+if (sys.version_info > (3, 0)):
+    print("Python 3 has been detected you may continue")
+else:
+     sys.exit("Python 2 has been detected please run in python3!")
+
+
 ENV = "GNOME"  # Can be 'KDE' or 'GNOME'
-DEVICEADDR =  str(input("Enter Bluetooth Adress of the device e.g AA:BB:CC:DD:EE:FF"))#Asks for bluetooth device address
+DEVICEADDR = input("Enter Bluetooth Adress of the device e.g AA:BB:CC:DD:EE:FF: ")#Asks for bluetooth device address
 
 CHECKINTERVAL = 15  # device pinged at this interval (seconds) when screen is unlocked
 CHECKREPEAT = 3  # device must be unreachable this many times to lock
