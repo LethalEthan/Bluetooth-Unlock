@@ -11,14 +11,30 @@ import time
 if (sys.version_info > (3, 0)):
     print("Python 3 has been detected you may continue")
 else:
-     sys.exit("Python 2 has been detected please run in python3!")
+    sys.exit("Python 2 has been detected please run in python3!")
 
 
-ENV = "GNOME"  # Can be 'KDE' or 'GNOME'
+ENV = input("""Please Enter your Desktop Environment can be:
+'LOGINCTL' (Recommended)
+'KDE'
+'GNOME'
+'XSCREENSAVER' (You have to enter password!) 
+""")
+if ENV == "LOGINCTL":
+ print("LOGINCTL has been selected")
+elif ENV == "KDE":
+ print("KDE has been selected")
+elif ENV == "GNOME":
+ print("GNOME has been selected")
+elif ENV == "XSCREENSAVER":
+ print("XSCREENSAVER has been selected")
+else:
+ sys.exit("Unidentified Environment exiting")
+	
 DEVICEADDR = input("Enter Bluetooth Adress of the device e.g AA:BB:CC:DD:EE:FF: ")#Asks for bluetooth device address
 
-CHECKINTERVAL = 15  # device pinged at this interval (seconds) when screen is unlocked
-CHECKREPEAT = 3  # device must be unreachable this many times to lock
+CHECKINTERVAL = 3  # device pinged at this interval (seconds) when screen is unlocked
+CHECKREPEAT = 2  # device must be unreachable this many times to lock
 mode = 'unlocked'
 
 if __name__ == "__main__":
@@ -36,17 +52,25 @@ if __name__ == "__main__":
 
         if process.returncode == 0 and mode == 'locked':
             mode = 'unlocked'
-            if ENV == "KDE":
-                subprocess.Popen(['loginctl', 'unlock-session 1'], shell=False, stdout=subprocess.PIPE)
+            if ENV == "LOGINCTL":
+                subprocess.Popen(['loginctl', 'unlock-session'], shell=False, stdout=subprocess.PIPE)
+            elif ENV == "KDE":
+                subprocess.Popen(['loginctl', 'unlock-session'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "GNOME":
                 subprocess.Popen(['gnome-screensaver-command', '--deactivate'], shell=False, stdout=subprocess.PIPE)
+            elif ENV == "XSCREENSAVER":
+                subprocess.Popen(['xscreensaver-command', '-deactivate'], shell=False, stdout=subprocess.PIPE)
 
         if process.returncode == 1 and mode == 'unlocked':
             mode = 'locked'
-            if ENV == "KDE":
-                subprocess.Popen(['loginctl', 'lock-session 1'], shell=False, stdout=subprocess.PIPE)
+            if ENV == "LOGINCTL":
+                subprocess.Popen(['loginctl', 'lock-session'], shell=False, stdout=subprocess.PIPE) 
+            elif ENV == "KDE":
+                subprocess.Popen(['loginctl', 'lock-session'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "GNOME":
                 subprocess.Popen(['gnome-screensaver-command', '--lock'], shell=False, stdout=subprocess.PIPE)
+            elif ENV == "XSCREENSAVER":
+                subprocess.Popen(['xscreensaver-command', '-lock'], shell=False, stdout=subprocess.PIPE)
             
         if mode == 'locked':
             time.sleep(1)
