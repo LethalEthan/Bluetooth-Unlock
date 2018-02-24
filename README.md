@@ -1,5 +1,5 @@
 # Bluetooth-Unlock
-Unlock your Computer using a Bluetooth device when nearby
+Unlock your Linux based Computer using a Bluetooth device when nearby
 
 About
 -----
