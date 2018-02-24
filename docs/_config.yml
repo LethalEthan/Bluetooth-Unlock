@@ -1,3 +1,11 @@
 theme: jekyll-theme-architect
 title: Bluetooth-Unlock
 show_downloads: true
+github:
+  zip_url: https://ecloud.zapto.org/index.php/s/aM66kb5kxq5Sk46/download
+  gzip_url: https://ecloud.zapto.org/index.php/s/adJRYsinrMbZZLa/download
+children:
+    - title: "Installation"
+      url: /docs/installation/
+    - title: "Upgrading"
+      url: /docs/upgrading/
