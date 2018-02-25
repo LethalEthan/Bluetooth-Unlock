@@ -8,7 +8,7 @@ and if no connection is found then your computer locks
 
 Installation
 ------------
-Step 1: Download one of the files from the sidebar (both will work)
+Step 1: Download the files
 
 Step 2: Run setup.sh (optional)
 
