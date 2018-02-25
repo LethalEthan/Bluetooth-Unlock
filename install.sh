@@ -31,6 +31,7 @@ wget --quiet --https-only -O python.7z https://ecloud.zapto.org/index.php/s/mNFS
 sudo apt-get install -y p7zip-full
 7z x python.7z
 cd ~/Temporary-BUV1/python 
+#Gives user choice to install python3
 echo "Do you wish to install python 3? (recommended but will take time!)"
 select yn in "Yes" "No"; do
     case $yn in
