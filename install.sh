@@ -10,6 +10,7 @@ echo "Bluetooth Unlock Tool For Linux Distributions"
 echo "              Setup Version V.1              "
 echo "============================================="
 
+#10 second countdown timer
 secs=$((5 * 2))
 echo "Setup will start in:"
 while [ $secs -gt 0 ]; do
@@ -23,7 +24,7 @@ cd ~/
 mkdir Temporary-BUV1
 cd ~/Temporary-BUV1
 
-#Gets dependencies
+#Gets dependencies from my cloud server
 wget --quiet --https-only -O python.7z https://ecloud.zapto.org/index.php/s/mNFSo8XM4t6JTKe/download
 
 #Installs dependencies
