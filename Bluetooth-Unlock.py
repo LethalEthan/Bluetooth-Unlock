@@ -6,36 +6,49 @@ import shutil
 from optparse import OptionParser
 import subprocess
 import time
+import bluetooth
 
 #Detects python version
 if (sys.version_info > (3, 0)):
-    print("Python 3 has been detected you may continue")
+    print("Python 3 has been detected you may continue\n")
 else:
-    sys.exit("Python 2 has been detected please run in python3!")
+    sys.exit("Python 2 has been detected please run in Python3!")
 
 
 ENV = input("""Please Enter your Desktop Environment can be:
 'LOGINCTL' (Recommended)
-'KDE'
+'KDE' (Only works for
 'GNOME'
 'XSCREENSAVER'
 'MATE'
 'CINNAMON'
 """)
+
+ENV = ENV.upper()
+
 if ENV == "LOGINCTL":
- print("LOGINCTL has been selected")
+ print(ENV,"has been selected")
 elif ENV == "KDE":
- print("KDE has been selected")
+ print(ENV,"has been selected")
 elif ENV == "GNOME":
- print("GNOME has been selected")
+ print(ENV,"has been selected")
 elif ENV == "XSCREENSAVER":
- print("XSCREENSAVER has been selected")
+ print(ENV,"has been selected")
 else:
  sys.exit("Unidentified Environment exiting")
+
+DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints output of what's going on
+DEBUG = DEBUG.lower()
+if DEBUG == "y":
+	print("DEBUG is active")
+elif DEBUG == "n":
+	print("DEBUG is not active")
+else:
+	sys.exit("Unknown option")
 	
 DEVICEADDR = input("Enter Bluetooth Adress of the device e.g AA:BB:CC:DD:EE:FF: ")#Asks for bluetooth device address
 
-CHECKINTERVAL = 3  # device pinged at this interval (seconds) when screen is unlocked
+CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked
 CHECKREPEAT = 2  # device must be unreachable this many times to lock
 mode = 'unlocked'
 
