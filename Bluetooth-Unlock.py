@@ -18,7 +18,9 @@ ENV = input("""Please Enter your Desktop Environment can be:
 'LOGINCTL' (Recommended)
 'KDE'
 'GNOME'
-'XSCREENSAVER' (You have to enter password!) 
+'XSCREENSAVER'
+'MATE'
+'CINNAMON'
 """)
 if ENV == "LOGINCTL":
  print("LOGINCTL has been selected")
@@ -59,8 +61,12 @@ if __name__ == "__main__":
             elif ENV == "GNOME":
                 subprocess.Popen(['gnome-screensaver-command', '--deactivate'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "XSCREENSAVER":
-                subprocess.Popen(['xscreensaver-command', '-deactivate'], shell=False, stdout=subprocess.PIPE)
-
+                subprocess.Popen(['pkill', 'xscreensaver'], shell=False, stdout=subprocess.PIPE)
+            elif ENV == "MATE":
+                subprocess.Popen(['mate-screensaver-command', '-d'], shell=False, stdout=subprocess.PIPE)	
+            elif ENV == "CINNAMON":
+                subprocess.Popen(['cinnamon-screensaver-command', '-d'], shell=False, stdout=subprocess.PIPE)
+		
         if process.returncode == 1 and mode == 'unlocked':
             mode = 'locked'
             if ENV == "LOGINCTL":
@@ -71,6 +77,10 @@ if __name__ == "__main__":
                 subprocess.Popen(['gnome-screensaver-command', '--lock'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "XSCREENSAVER":
                 subprocess.Popen(['xscreensaver-command', '-lock'], shell=False, stdout=subprocess.PIPE)
+            elif ENV == "MATE":
+                subprocess.Popen(['mate-screensaver-command', '-l'], shell=False, stdout=subprocess.PIPE)
+            elif ENV == "CINNAMON":
+                subprocess.Popen(['cinnamon-screensaver-command', '-l'], shell=False, stdout=subprocess.PIPE)
             
         if mode == 'locked':
             time.sleep(1)
