@@ -6,7 +6,6 @@ import shutil
 from optparse import OptionParser
 import subprocess
 import time
-import bluetooth
 
 #Detects python version
 if (sys.version_info > (3, 0)):
@@ -17,7 +16,7 @@ else:
 
 ENV = input("""Please Enter your Desktop Environment can be:
 'LOGINCTL' (Recommended)
-'KDE' (Only works for
+'KDE' (Doesn't work on older version's)
 'GNOME'
 'XSCREENSAVER'
 'MATE'
