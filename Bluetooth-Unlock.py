@@ -36,14 +36,14 @@ elif ENV == "XSCREENSAVER":
 else:
  sys.exit("Unidentified Environment exiting")
 
-DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints output of what's going on
-DEBUG = DEBUG.lower()
-if DEBUG == "y":
-	print("DEBUG is active")
-elif DEBUG == "n":
-	print("DEBUG is not active")
-else:
-	sys.exit("Unknown option")
+#DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints output of what's going on
+#DEBUG = DEBUG.lower()
+#if DEBUG == "y":
+#	print("DEBUG is active")
+#elif DEBUG == "n":
+#	print("DEBUG is not active")
+#else:
+#	sys.exit("Unknown option")
 	
 DEVICEADDR = input("Enter Bluetooth Adress of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
 
