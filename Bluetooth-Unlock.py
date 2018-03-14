@@ -6,6 +6,8 @@ import shutil
 from optparse import OptionParser
 import subprocess
 import time
+import bluetooth
+import bluetooth._bluetooth as bt
 
 #Detects python version
 if (sys.version_info > (3, 0)):
@@ -44,7 +46,9 @@ else:
 #	print("DEBUG is not active")
 #else:
 #	sys.exit("Unknown option")
-	
+
+print ("Thank you for using Bluetooth-Unlock",USER)
+
 DEVICEADDR = input("Enter Bluetooth Adress of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
 
 CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked
