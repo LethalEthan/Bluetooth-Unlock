@@ -24,6 +24,10 @@ cd ~/
 mkdir Temporary-BUV1
 cd ~/Temporary-BUV1
 
+#Installs python dependencies 
+sudo apt install -y bluetooth libbluetooth-dev
+sudo -H -u $USER python3 -m pip install pybluez || echo "Issue installing pybluez!"
+
 #Gets dependencies from my cloud server
 wget --quiet --https-only -O python.7z https://ecloud.zapto.org/index.php/s/mNFSo8XM4t6JTKe/download
 
@@ -31,8 +35,9 @@ wget --quiet --https-only -O python.7z https://ecloud.zapto.org/index.php/s/mNFS
 sudo apt-get install -y p7zip-full
 7z x python.7z
 cd ~/Temporary-BUV1/python 
+
 #Gives user choice to install python3
-echo "Do you wish to install python 3? (recommended but will take time!)"
+echo "Do you wish to install python 3 or install yourself? (recommended but will take time!)"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) ./configure --enable-optimizations && make && sudo make install && rm -R ~/Temporary-BUV1 && echo "Installation Complete! please run bluetooth-unlock.py" && exit 0;;
