@@ -8,13 +8,14 @@ import subprocess
 import time
 import bluetooth
 import bluetooth._bluetooth as bt
+import getpass
 
 #Detects python version
 if (sys.version_info > (3, 0)):
     print("Python 3 has been detected you may continue\n")
 else:
     sys.exit("Python 2 has been detected please run in Python3!")
-
+USER = getpass.getuser()
 
 ENV = input("""Please Enter your Desktop Environment can be:
 'LOGINCTL' (Recommended)
