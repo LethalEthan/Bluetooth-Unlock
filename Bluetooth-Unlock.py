@@ -6,15 +6,22 @@ import shutil
 from optparse import OptionParser
 import subprocess
 import time
-import bluetooth
-import bluetooth._bluetooth as bt
 import getpass
+try:
+    import bluetooth
+    from bluetooth import *
+    import bluetooth._bluetooth as bt
+except:
+    print ("Cannot import the bluetooth modules!")
+    print ("Please run install.sh!")
+    sys.exit(1)
 
 #Detects python version
 if (sys.version_info > (3, 0)):
     print("Python 3 has been detected you may continue\n")
 else:
     sys.exit("Python 2 has been detected please run in Python3!")
+
 USER = getpass.getuser()
 
 ENV = input("""Please Enter your Desktop Environment can be:
@@ -48,7 +55,11 @@ else:
 #else:
 #	sys.exit("Unknown option")
 
-print ("Thank you for using Bluetooth-Unlock",USER)
+print ("Thank you for using Bluetooth-Unlock",USER ,"\n")
+
+print ("Searching for nearby devices...\n")
+nearby = discover_devices(lookup_names = True)
+print (nearby,"\n")
 
 DEVICEADDR = input("Enter Bluetooth Adress of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
 
@@ -80,14 +91,14 @@ if __name__ == "__main__":
             elif ENV == "XSCREENSAVER":
                 subprocess.Popen(['pkill', 'xscreensaver'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "MATE":
-                subprocess.Popen(['mate-screensaver-command', '-d'], shell=False, stdout=subprocess.PIPE)	
+                subprocess.Popen(['mate-screensaver-command', '-d'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "CINNAMON":
                 subprocess.Popen(['cinnamon-screensaver-command', '-d'], shell=False, stdout=subprocess.PIPE)
-		
+
         if process.returncode == 1 and mode == 'unlocked':
             mode = 'locked'
             if ENV == "LOGINCTL":
-                subprocess.Popen(['loginctl', 'lock-session'], shell=False, stdout=subprocess.PIPE) 
+                subprocess.Popen(['loginctl', 'lock-session'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "KDE":
                 subprocess.Popen(['loginctl', 'lock-session'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "GNOME":
@@ -98,7 +109,7 @@ if __name__ == "__main__":
                 subprocess.Popen(['mate-screensaver-command', '-l'], shell=False, stdout=subprocess.PIPE)
             elif ENV == "CINNAMON":
                 subprocess.Popen(['cinnamon-screensaver-command', '-l'], shell=False, stdout=subprocess.PIPE)
-            
+
         if mode == 'locked':
             time.sleep(1)
         else:
