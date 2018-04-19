@@ -10,6 +10,6 @@ Installation
 ------------
 Step 1: Download the files
 
-Step 2: Run setup.sh (mandatory)
+Step 2: Run install.sh (mandatory)
 
 Step 3: Run Bluetooth-Unlock.py using: sudo python3 Bluetooth-Unlock.py
