@@ -11,7 +11,7 @@ echo "            Setup Version V.4.2              "
 echo "============================================="
 
 #10 second countdown timer
-secs=$((5 * 1))
+secs=$((5))
 echo "Setup will start in:"
 while [ $secs -gt 0 ]; do
    echo -ne "$secs\033[0K\r"
