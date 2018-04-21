@@ -26,7 +26,7 @@ USER = getpass.getuser()
 
 ENV = input("""Please Enter your Desktop Environment can be:
 'LOGINCTL' (Recommended)
-'KDE' (Doesn't work on older version's)
+'KDE' (Doesn't work on older versions)
 'GNOME'
 'XSCREENSAVER'
 'MATE'
