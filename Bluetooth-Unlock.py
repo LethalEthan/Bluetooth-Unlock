@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# imports python modules
+#Imports python modules
 import sys
 import os
 import shutil
@@ -7,6 +7,8 @@ from optparse import OptionParser
 import subprocess
 import time
 import getpass
+import configparser
+
 try:
     import bluetooth
     from bluetooth import *
@@ -23,45 +25,80 @@ else:
     sys.exit("Python 2 has been detected please run in Python3!")
 
 USER = getpass.getuser()
+GET_DEVICEADDR = 1
+SELECT_ENV = 1
 
-ENV = input("""Please Enter your Desktop Environment can be:
-'LOGINCTL' (Recommended)
-'KDE' (Doesn't work on older versions)
-'GNOME'
-'XSCREENSAVER'
-'MATE'
-'CINNAMON'
-""")
+#Loads the options from the config and loads them into a local variable
+config = configparser.ConfigParser()
+config.read("config.ini")
+if config.has_option("DESKTOP", "env"):
+    OPTION = config.get("DESKTOP", "env")
+    print("Desktop Environment found in config, using the one specified")
+    SELECT_ENV = 0
+    ENV = config.get("DESKTOP", "env")
+if config.has_option("DEVICEADDR", "deviceaddr"):
+    OPTION = config.get("DEVICEADDR", "deviceaddr")
+    print("Device Adress found in config, using the one specified""\n")
+    GET_DEVICEADDR = 0
+    DEVICEADDR = config.get("DEVICEADDR", "deviceaddr")
 
-ENV = ENV.upper()
+if SELECT_ENV == 1:
+    ENV = input("""Please Enter your Desktop Environment can be:
+    'LOGINCTL' (Recommended)
+    'KDE' (Doesn't work on older versions)
+    'GNOME'
+    'XSCREENSAVER'
+    'MATE'
+    'CINNAMON'
+    """)
+    ENV = ENV.upper()
+    if ENV == "LOGINCTL":
+        print(ENV,"has been selected")
+    elif ENV == "KDE":
+        print(ENV,"has been selected")
+    elif ENV == "GNOME":
+        print(ENV,"has been selected")
+    elif ENV == "XSCREENSAVER":
+        print(ENV,"has been selected")
+    elif ENV == "MATE":
+        print(ENV,"has been selected")
+    elif ENV == "CINNAMON":
+        print(ENV,"has been selected")
+    else:
+        sys.exit("Unidentified Environment exiting")
+    config["DESKTOP"] = {"ENV": (ENV)}
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
 
-if ENV == "LOGINCTL":
- print(ENV,"has been selected")
-elif ENV == "KDE":
- print(ENV,"has been selected")
-elif ENV == "GNOME":
- print(ENV,"has been selected")
-elif ENV == "XSCREENSAVER":
- print(ENV,"has been selected")
+elif SELECT_ENV == 0:
+    print ("Config found using specified desktop environment")
+    print (ENV)
+
+DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints extra output of what's going on
+DEBUG = DEBUG.lower()
+if DEBUG == "y":
+	print("DEBUG is active")
+elif DEBUG == "n":
+	print("DEBUG is not active")
 else:
- sys.exit("Unidentified Environment exiting")
-
-#DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints output of what's going on
-#DEBUG = DEBUG.lower()
-#if DEBUG == "y":
-#	print("DEBUG is active")
-#elif DEBUG == "n":
-#	print("DEBUG is not active")
-#else:
-#	sys.exit("Unknown option")
+	sys.exit("Unknown option")
 
 print ("Thank you for using Bluetooth-Unlock",USER ,"\n")
-
-print ("Searching for nearby devices...\n")
-nearby = discover_devices(lookup_names = True)
-print (nearby,"\n")
-
-DEVICEADDR = input("Enter Bluetooth Adress of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
+if GET_DEVICEADDR == 1:
+    print ("Searching for nearby devices...\n")
+    nearby = discover_devices(lookup_names = True)
+    print (nearby,"\n")
+    DEVICEADDR = input("Enter Bluetooth Adress of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
+    config["DEVICEADDR"] = {"DEVICEADDR": (DEVICEADDR)}
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+elif GET_DEVICEADDR == 0:
+    print ("Device Address is", DEVICEADDR)
+if DEBUG == "y":
+    print ("This is the sections found in config.ini")
+    print (config.sections())
+    print ("Desktop Environment is", ENV)
+    print ("Device Address is",DEVICEADDR)
 
 CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked
 CHECKREPEAT = 2  # device must be unreachable this many times to lock
