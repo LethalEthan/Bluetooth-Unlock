@@ -40,6 +40,8 @@ elif [[ $release2 == "Distributor ID:	Gentoo" ]]; then
   echo "Using yum, WARNING THIS MAY NOT WORK!"
   yum install -y python3 python3-pip bluetooth libbluetooth-dev || aptinstallfail=1
   sudo -H -u $USER python3 -m pip install pybluez || bluedepfail=1
+else; then
+  echo "Unsupported system please install dependencies yourself, sorry for the inconvenience"
 fi
 #Installs python dependencies
 
