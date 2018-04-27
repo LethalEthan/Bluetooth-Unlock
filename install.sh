@@ -1,6 +1,6 @@
 #!bash
-#checking for root
-if [[ "$EUID" -ne 0 ]]; then
+#Checking for root
+if [[ "$EUID" ]]; then
   echo "Please run as root"
   exit 1
 fi
@@ -10,7 +10,7 @@ echo "Bluetooth Unlock Tool For Linux Distributions"
 echo "            Setup Version V.5.2              "
 echo "============================================="
 
-#10 second countdown timer
+#5 second countdown timer
 secs=$((5))
 echo "Setup will start in:"
 while [[ $secs -gt 0 ]]; do
@@ -24,7 +24,7 @@ echo $release
 if [[ $release == "Distributor ID:	Ubuntu" ]]; then
   echo "Using apt"
   sudo apt update
-  sudo apt install -y python3 python3-pip bluetooth libbluetooth-dev || aptinstallfail=1
+  sudo apt install -y python3 python3-pip bluetooth libbluetooth-dev tar || aptinstallfail=1
   sudo -H -u $USER python3 -m pip install pybluez || bluedepfail=1
   if [[ $aptinstallfail == "1" ]]; then
     echo "Apt has failed"
@@ -34,11 +34,11 @@ if [[ $release == "Distributor ID:	Ubuntu" ]]; then
   echo "Install complete! please run Bluetooth-Unlock.py"
 elif [[ $release == "Distributor ID:	Fedora" ]]; then
   echo "Using yum, WARNING THIS MAY NOT WORK!"
-  yum install -y python3 python3-pip bluetooth libbluetooth-dev || aptinstallfail=1
+  yum install python3 python3-pip bluetooth libbluetooth-dev tar || aptinstallfail=1
   sudo -H -u $USER python3 -m pip install pybluez || bluedepfail=1
 elif [[ $release2 == "Distributor ID:	Gentoo" ]]; then
   echo "Using yum, WARNING THIS MAY NOT WORK!"
-  yum install -y python3 python3-pip bluetooth libbluetooth-dev || aptinstallfail=1
+  yum install python3 python3-pip bluetooth libbluetooth-dev tar || aptinstallfail=1
   sudo -H -u $USER python3 -m pip install pybluez || bluedepfail=1
 else
   echo "Unsupported system please install dependencies yourself, sorry for the inconvenience"
