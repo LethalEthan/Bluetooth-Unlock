@@ -8,6 +8,8 @@ import subprocess
 import time
 import getpass
 import configparser
+#import zipfile
+#import tarfile
 
 try:
     import bluetooth
@@ -17,20 +19,33 @@ except:
     print ("Cannot import the bluetooth modules!")
     print ("Please run install.sh!")
     sys.exit(1)
-
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print(dir_path)
 #Detects python version
 if (sys.version_info > (3, 0)):
     print("Python 3 has been detected you may continue\n")
 else:
     sys.exit("Python 2 has been detected please run in Python3!")
+config = configparser.ConfigParser()
+config.read("config.ini")
 
 USER = getpass.getuser()
 GET_DEVICEADDR = 1
 SELECT_ENV = 1
+#Checks for a new version, i've tried to make it automatically install but due to many problems it had to be postponed
+VERSION = config.get("VERSION", "version")
+process = subprocess.Popen(["wget", "-q", "-O", "Update.ini", "https://ecloud.zapto.org/index.php/s/AKeEkGxC2nww2KX/download"], shell=False, stdout=subprocess.PIPE)
+process.wait()
+config.read("Update.ini")
+NEWVERSION = config.get("NEWVERSION", "newversion")
+if NEWVERSION > VERSION:
+    print("New version found:", NEWVERSION)
+elif NEWVERSION < VERSION:
+    print("Version installed is higher than the version specified in update config")
+elif NEWVERSION == VERSION:
+    print("Latest version installed")
 
 #Loads the options from the config and loads them into a local variable
-config = configparser.ConfigParser()
-config.read("config.ini")
 if config.has_option("DESKTOP", "env"):
     OPTION = config.get("DESKTOP", "env")
     print("Desktop Environment found in config, using the one specified")
@@ -44,12 +59,12 @@ if config.has_option("DEVICEADDR", "deviceaddr"):
 
 if SELECT_ENV == 1:
     ENV = input("""Please Enter your Desktop Environment can be:
-    'LOGINCTL' (Recommended)
-    'KDE' (Doesn't work on older versions)
-    'GNOME'
-    'XSCREENSAVER'
-    'MATE'
-    'CINNAMON'
+    "LOGINCTL" (Recommended)
+    "KDE" (Doesn"t work on older versions)
+    "GNOME"
+    "XSCREENSAVER"
+    "MATE"
+    "CINNAMON"
     """)
     ENV = ENV.upper()
     if ENV == "LOGINCTL":
@@ -67,18 +82,18 @@ if SELECT_ENV == 1:
     else:
         sys.exit("Unidentified Environment exiting")
     config["DESKTOP"] = {"ENV": (ENV)}
-    with open('config.ini', 'w') as configfile:
+    with open("config.ini", "w") as configfile:
         config.write(configfile)
 
 elif SELECT_ENV == 0:
     print ("Config found using specified desktop environment")
     print (ENV)
 
-DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints extra output of what's going on
-DEBUG = DEBUG.lower()
-if DEBUG == "y":
+DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints extra output of what"s going on
+DEBUG = DEBUG.upper()
+if DEBUG == "Y":
 	print("DEBUG is active")
-elif DEBUG == "n":
+elif DEBUG == "N":
 	print("DEBUG is not active")
 else:
 	sys.exit("Unknown option")
@@ -90,11 +105,11 @@ if GET_DEVICEADDR == 1:
     print (nearby,"\n")
     DEVICEADDR = input("Enter Bluetooth Adress of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
     config["DEVICEADDR"] = {"DEVICEADDR": (DEVICEADDR)}
-    with open('config.ini', 'w') as configfile:
+    with open("config.ini", "w") as configfile:
         config.write(configfile)
 elif GET_DEVICEADDR == 0:
     print ("Device Address is", DEVICEADDR)
-if DEBUG == "y":
+if DEBUG == "Y":
     print ("This is the sections found in config.ini")
     print (config.sections())
     print ("Desktop Environment is", ENV)
@@ -102,13 +117,13 @@ if DEBUG == "y":
 
 CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked
 CHECKREPEAT = 2  # device must be unreachable this many times to lock
-mode = 'unlocked'
+mode = "unlocked"
 
 if __name__ == "__main__":
     while True:
         tries = 0
         while tries < CHECKREPEAT:
-            process = subprocess.Popen(['sudo', '/usr/bin/l2ping', DEVICEADDR, '-t', '1', '-c', '1'], shell=False, stdout=subprocess.PIPE)
+            process = subprocess.Popen(["sudo", "/usr/bin/l2ping", DEVICEADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
             process.wait()
             if process.returncode == 0:
                 print("ping OK")
@@ -117,37 +132,37 @@ if __name__ == "__main__":
             time.sleep(1)
             tries = tries + 1
 
-        if process.returncode == 0 and mode == 'locked':
-            mode = 'unlocked'
+        if process.returncode == 0 and mode == "locked":
+            mode = "unlocked"
             if ENV == "LOGINCTL":
-                subprocess.Popen(['loginctl', 'unlock-session'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["loginctl", "unlock-session"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "KDE":
-                subprocess.Popen(['loginctl', 'unlock-session'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["loginctl", "unlock-session"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "GNOME":
-                subprocess.Popen(['gnome-screensaver-command', '--deactivate'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["gnome-screensaver-command", "-d"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "XSCREENSAVER":
-                subprocess.Popen(['pkill', 'xscreensaver'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["pkill", "xscreensaver"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "MATE":
-                subprocess.Popen(['mate-screensaver-command', '-d'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["mate-screensaver-command", "-d"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "CINNAMON":
-                subprocess.Popen(['cinnamon-screensaver-command', '-d'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["cinnamon-screensaver-command", "-d"], shell=False, stdout=subprocess.PIPE)
 
-        if process.returncode == 1 and mode == 'unlocked':
-            mode = 'locked'
+        if process.returncode == 1 and mode == "unlocked":
+            mode = "locked"
             if ENV == "LOGINCTL":
-                subprocess.Popen(['loginctl', 'lock-session'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["loginctl", "lock-session"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "KDE":
-                subprocess.Popen(['loginctl', 'lock-session'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["loginctl", "lock-session"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "GNOME":
-                subprocess.Popen(['gnome-screensaver-command', '--lock'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["gnome-screensaver-command", "-l"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "XSCREENSAVER":
-                subprocess.Popen(['xscreensaver-command', '-lock'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["xscreensaver-command", "-lock"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "MATE":
-                subprocess.Popen(['mate-screensaver-command', '-l'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["mate-screensaver-command", "-l"], shell=False, stdout=subprocess.PIPE)
             elif ENV == "CINNAMON":
-                subprocess.Popen(['cinnamon-screensaver-command', '-l'], shell=False, stdout=subprocess.PIPE)
+                subprocess.Popen(["cinnamon-screensaver-command", "-l"], shell=False, stdout=subprocess.PIPE)
 
-        if mode == 'locked':
+        if mode == "locked":
             time.sleep(1)
         else:
             time.sleep(CHECKINTERVAL)
