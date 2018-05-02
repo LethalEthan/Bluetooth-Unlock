@@ -2,3 +2,15 @@ A file stating developments in Bluetooth-Unlock
 DD/MM/YYYY HH:MM
 27/04/2018 17:50:-
 -Update feature is almost ready to implement
+
+27/04/2018 21:40:-
+-Update detection implemented
+-Auto-Update postponed
+
+02/05/2018 19:40:-
+-Fixed install.sh root detection
+-Fixed config issue
+-IF NEWVERSION IS IN CONFIG.INI DELETE THAT SECTION AS IT MAY AFFECT UPDATE DETECTION!
+-Changed from optparse to argparse
+-Can now be ran from ./
+-Made aptinstallfail to installfail for use with other package managers
