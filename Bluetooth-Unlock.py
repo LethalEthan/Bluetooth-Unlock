@@ -1,16 +1,15 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #Imports python modules
 import sys
 import os
 import shutil
-from optparse import OptionParser
+import argparse
 import subprocess
 import time
 import getpass
 import configparser
-#import zipfile
-#import tarfile
-
+#import zipfile #For upcoming auto-update feature
+#import tarfile #For upcoming auto-update feature
 try:
     import bluetooth
     from bluetooth import *
@@ -19,19 +18,28 @@ except:
     print ("Cannot import the bluetooth modules!")
     print ("Please run install.sh!")
     sys.exit(1)
+#Gets OS path for upcoming auto-update feature
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print(dir_path)
+
 #Detects python version
 if (sys.version_info > (3, 0)):
     print("Python 3 has been detected you may continue\n")
 else:
     sys.exit("Python 2 has been detected please run in Python3!")
+
+#Things for imports
+parser = argparse.ArgumentParser()
 config = configparser.ConfigParser()
+
+#Reads configuration file
 config.read("config.ini")
 
-USER = getpass.getuser()
-GET_DEVICEADDR = 1
-SELECT_ENV = 1
+#Variables
+USER = getpass.getuser() #For the thank you message
+GET_DEVICEADDR = 1 #For setup when no config is found
+SELECT_ENV = 1 #For setup when no config is found
+
 #Checks for a new version, i've tried to make it automatically install but due to many problems it had to be postponed
 VERSION = config.get("VERSION", "version")
 process = subprocess.Popen(["wget", "-q", "-O", "Update.ini", "https://ecloud.zapto.org/index.php/s/AKeEkGxC2nww2KX/download"], shell=False, stdout=subprocess.PIPE)
@@ -39,11 +47,18 @@ process.wait()
 config.read("Update.ini")
 NEWVERSION = config.get("NEWVERSION", "newversion")
 if NEWVERSION > VERSION:
+    config.clear()
     print("New version found:", NEWVERSION)
 elif NEWVERSION < VERSION:
+    config.clear()
     print("Version installed is higher than the version specified in update config")
 elif NEWVERSION == VERSION:
+    config.clear()
     print("Latest version installed")
+else:
+    config.clear()
+    print("If you see this message then something has probably gone wrong :/")
+config.read("config.ini")
 
 #Loads the options from the config and loads them into a local variable
 if config.has_option("DESKTOP", "env"):
@@ -57,6 +72,7 @@ if config.has_option("DEVICEADDR", "deviceaddr"):
     GET_DEVICEADDR = 0
     DEVICEADDR = config.get("DEVICEADDR", "deviceaddr")
 
+#Select Desktop Environment menu
 if SELECT_ENV == 1:
     ENV = input("""Please Enter your Desktop Environment can be:
     "LOGINCTL" (Recommended)
@@ -89,7 +105,7 @@ elif SELECT_ENV == 0:
     print ("Config found using specified desktop environment")
     print (ENV)
 
-DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints extra output of what"s going on
+DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints extra information of what"s going on
 DEBUG = DEBUG.upper()
 if DEBUG == "Y":
 	print("DEBUG is active")
@@ -98,7 +114,8 @@ elif DEBUG == "N":
 else:
 	sys.exit("Unknown option")
 
-print ("Thank you for using Bluetooth-Unlock",USER ,"\n")
+#Code containing thank you message and device detection
+print ("Thank you for using Bluetooth-Unlock",VERSION ,USER ,"\n")
 if GET_DEVICEADDR == 1:
     print ("Searching for nearby devices...\n")
     nearby = discover_devices(lookup_names = True)
@@ -109,16 +126,19 @@ if GET_DEVICEADDR == 1:
         config.write(configfile)
 elif GET_DEVICEADDR == 0:
     print ("Device Address is", DEVICEADDR)
+#Prints information
 if DEBUG == "Y":
     print ("This is the sections found in config.ini")
     print (config.sections())
     print ("Desktop Environment is", ENV)
     print ("Device Address is",DEVICEADDR)
 
+#Variables for Main code
 CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked
 CHECKREPEAT = 2  # device must be unreachable this many times to lock
 mode = "unlocked"
 
+#Main code for Bluetooth-Unlock
 if __name__ == "__main__":
     while True:
         tries = 0
