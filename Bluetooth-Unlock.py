@@ -75,7 +75,7 @@ if config.has_option("DEVICEADDR", "deviceaddr"):
 #Select Desktop Environment menu
 if SELECT_ENV == 1:
     ENV = input("""Please Enter your Desktop Environment can be:
-    "LOGINCTL" (Recommended)
+    "LOGINCTL" (Recommended) (Don't use sudo)
     "KDE" (Doesn"t work on older versions)
     "GNOME"
     "XSCREENSAVER"
