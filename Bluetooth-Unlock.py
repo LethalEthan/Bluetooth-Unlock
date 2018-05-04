@@ -42,8 +42,10 @@ SELECT_ENV = 1 #For setup when no config is found
 
 #Checks for a new version, i've tried to make it automatically install but due to many problems it had to be postponed
 VERSION = config.get("VERSION", "version")
+print("Downloading Update.ini from ecloud...")
 process = subprocess.Popen(["wget", "-q", "-O", "Update.ini", "https://ecloud.zapto.org/index.php/s/AKeEkGxC2nww2KX/download"], shell=False, stdout=subprocess.PIPE)
 process.wait()
+print("Done!")
 config.read("Update.ini")
 NEWVERSION = config.get("NEWVERSION", "newversion")
 if NEWVERSION > VERSION:
