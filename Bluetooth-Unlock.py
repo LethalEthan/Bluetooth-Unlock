@@ -31,6 +31,7 @@ else:
 #Things for imports
 parser = argparse.ArgumentParser()
 config = configparser.ConfigParser()
+from distutils.spawn import find_executable
 
 #Reads configuration file
 config.read("config.ini")
@@ -77,12 +78,36 @@ if config.has_option("DESKTOP", "env"):
     ENV = config.get("DESKTOP", "env")
 if config.has_option("DEVICEADDR", "deviceaddr"):
     OPTION = config.get("DEVICEADDR", "deviceaddr")
-    print("Device Adress found in config, using the one specified""\n")
+    print("Device Adress found in config, using the one specified \n")
     GET_DEVICEADDR = 0
     DEVICEADDR = config.get("DEVICEADDR", "deviceaddr")
-
+AVAILDE = input("Would you like to see the available desktop environments? [Y/N]")
+AVAILDE = AVAILDE.upper()
+if AVAILDE == "Y":
+        gnome_screensaver = {'GNOME': 'gnome-screensaver'}
+        for gnome_env in gnome_screensaver:
+            if find_executable(gnome_screensaver[gnome_env]):
+                print("GNOME has been found")
+            else:
+                print("GNOME has not found")
+        mate_screensaver = {'MATE': 'mate-screensaver-command'}
+        for mate_env in mate_screensaver:
+            if find_executable(mate_screensaver[mate_env]):
+                print("MATE has been found")
+            else:
+                print("MATE has not been found")
+        x_screensaver = {'XSCREENSAVER': 'xscreensaver'}
+        for x_env in x_screensaver:
+            if find_executable(x_screensaver[x_env]):
+                print("XSCREENSAVER has been found")
+            else:
+                print("XSCREENSAVER has not been found")
+        print("\n")
+elif AVAILDE == "N":
+    print("Not displaying the available desktop environments")
 #Select Desktop Environment menu
 if SELECT_ENV == 1:
+    #Detects if these desktop evironments are available
     ENV = input("""Please Enter your Desktop Environment can be:
     "LOGINCTL" (Recommended) (Don't use sudo)
     "KDE" (Doesn"t work on older versions)
