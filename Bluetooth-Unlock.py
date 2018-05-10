@@ -42,24 +42,31 @@ SELECT_ENV = 1 #For setup when no config is found
 
 #Checks for a new version, i've tried to make it automatically install but due to many problems it had to be postponed
 VERSION = config.get("VERSION", "version")
-print("Downloading Update.ini from ecloud...")
-process = subprocess.Popen(["wget", "-q", "-O", "Update.ini", "https://ecloud.zapto.org/index.php/s/AKeEkGxC2nww2KX/download"], shell=False, stdout=subprocess.PIPE)
-process.wait()
-print("Done!")
-config.read("Update.ini")
-NEWVERSION = config.get("NEWVERSION", "newversion")
-if NEWVERSION > VERSION:
-    config.clear()
-    print("New version found:", NEWVERSION)
-elif NEWVERSION < VERSION:
-    config.clear()
-    print("Version installed is higher than the version specified in update config")
-elif NEWVERSION == VERSION:
-    config.clear()
-    print("Latest version installed")
+UPDATE = input("Would you like to update? [Y/N]")
+UPDATE = UPDATE.upper()
+if UPDATE == "Y":
+    print("Downloading Update.ini from ecloud...")
+    process = subprocess.Popen(["wget", "-q", "-O", "Update.ini", "https://ecloud.zapto.org/index.php/s/AKeEkGxC2nww2KX/download"], shell=False, stdout=subprocess.PIPE)
+    process.wait()
+    print("Done!")
+    config.read("Update.ini")
+    NEWVERSION = config.get("NEWVERSION", "newversion")
+    if NEWVERSION > VERSION:
+        config.clear()
+        print("New version found:", NEWVERSION)
+    elif NEWVERSION < VERSION:
+        config.clear()
+        print("Version installed is higher than the version specified in update config")
+    elif NEWVERSION == VERSION:
+        config.clear()
+        print("Latest version installed")
+    else:
+        config.clear()
+        print("If you see this message then something has probably gone wrong :/")
+elif UPDATE == "N":
+    print("Not checking for updates!")
 else:
-    config.clear()
-    print("If you see this message then something has probably gone wrong :/")
+    print("Unknown response")
 config.read("config.ini")
 
 #Loads the options from the config and loads them into a local variable
