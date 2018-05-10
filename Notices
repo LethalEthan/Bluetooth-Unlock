@@ -14,3 +14,6 @@ DD/MM/YYYY HH:MM
 -Changed from optparse to argparse
 -Can now be ran from ./
 -Made aptinstallfail to installfail for use with other package managers
+
+10/05/2018 21:10:-
+-Added would you like to update option
