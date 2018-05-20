@@ -43,7 +43,7 @@ SELECT_ENV = 1 #For setup when no config is found
 
 #Checks for a new version, i've tried to make it automatically install but due to many problems it had to be postponed
 VERSION = config.get("VERSION", "version")
-UPDATE = input("Would you like to update? [Y/N]")
+UPDATE = input("Would you like to check for an update? [Y/N]")
 UPDATE = UPDATE.upper()
 if UPDATE == "Y":
     print("Downloading Update.ini from ecloud...")
@@ -166,6 +166,8 @@ if DEBUG == "Y":
     print (config.sections())
     print ("Desktop Environment is", ENV)
     print ("Device Address is",DEVICEADDR)
+    e1 = ("mih ssim I,efil taerg a devil eh ,51:ega tac ym retsehc fo yromem nI")
+    print (e1[::-1])
 
 #Variables for Main code
 CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked
