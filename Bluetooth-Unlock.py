@@ -166,6 +166,7 @@ if DEBUG == "Y":
     print (config.sections())
     print ("Desktop Environment is", ENV)
     print ("Device Address is",DEVICEADDR)
+	#Easter egg
     e1 = ("mih ssim I,efil taerg a devil eh ,51:ega tac ym retsehc fo yromem nI")
     print (e1[::-1])
 
