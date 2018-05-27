@@ -51,11 +51,14 @@ if UPDATE == "Y":
     process.wait()
     print("Done!")
     config.read("Update.ini")
+    NOTICES = config.get("NOTICES", "notices")
     NEWVERSION = config.get("NEWVERSION", "newversion")
+    print (NOTICES)
     if NEWVERSION > VERSION:
         config.clear()
         print("New version found:", NEWVERSION)
     elif NEWVERSION < VERSION:
+
         config.clear()
         print("Version installed is higher than the version specified in update config")
     elif NEWVERSION == VERSION:
