@@ -42,28 +42,32 @@ GET_DEVICEADDR = 1 #For setup when no config is found
 SELECT_ENV = 1 #For setup when no config is found
 
 #Checks for a new version, i've tried to make it automatically install but due to many problems it had to be postponed
-VERSION = config.get("VERSION", "version")
+if config.has_option("VERSION", "version"):
+    VERSION = config.get("VERSION", "version")
+else:
+    sys.exit("VERSION NOT FOUND!")
 UPDATE = input("Would you like to check for an update? [Y/N]")
 UPDATE = UPDATE.upper()
 if UPDATE == "Y":
     print("Downloading Update.ini from ecloud...")
     process = subprocess.Popen(["wget", "-q", "-O", "Update.ini", "https://ecloud.zapto.org/index.php/s/AKeEkGxC2nww2KX/download"], shell=False, stdout=subprocess.PIPE)
     process.wait()
-    print("Done!")
+    print("Done!\n")
     config.read("Update.ini")
-    NOTICES = config.get("NOTICES", "notices")
+    if config.has_option("NOTICES", "notices"):
+        NOTICES = config.get("NOTICES", "notices")
     NEWVERSION = config.get("NEWVERSION", "newversion")
-    print (NOTICES)
-    if NEWVERSION > VERSION:
-        config.clear()
-        print("New version found:", NEWVERSION)
-    elif NEWVERSION < VERSION:
-
-        config.clear()
-        print("Version installed is higher than the version specified in update config")
-    elif NEWVERSION == VERSION:
-        config.clear()
-        print("Latest version installed")
+    print (NOTICES,"\n")
+    if config.has_option("NEWVERSION", "newversion"):
+        if NEWVERSION > VERSION:
+            config.clear()
+            print("New version found:", NEWVERSION)
+        elif NEWVERSION < VERSION:
+            config.clear()
+            print("Version installed is higher than the version specified in update config")
+        elif NEWVERSION == VERSION:
+            config.clear()
+            print("Latest version installed")
     else:
         config.clear()
         print("If you see this message then something has probably gone wrong :/")
@@ -84,30 +88,33 @@ if config.has_option("DEVICEADDR", "deviceaddr"):
     print("Device Adress found in config, using the one specified \n")
     GET_DEVICEADDR = 0
     DEVICEADDR = config.get("DEVICEADDR", "deviceaddr")
-AVAILDE = input("Would you like to see the available desktop environments? [Y/N]")
-AVAILDE = AVAILDE.upper()
-if AVAILDE == "Y":
-        gnome_screensaver = {'GNOME': 'gnome-screensaver'}
-        for gnome_env in gnome_screensaver:
-            if find_executable(gnome_screensaver[gnome_env]):
-                print("GNOME has been found")
-            else:
-                print("GNOME has not found")
-        mate_screensaver = {'MATE': 'mate-screensaver-command'}
-        for mate_env in mate_screensaver:
-            if find_executable(mate_screensaver[mate_env]):
-                print("MATE has been found")
-            else:
-                print("MATE has not been found")
-        x_screensaver = {'XSCREENSAVER': 'xscreensaver'}
-        for x_env in x_screensaver:
-            if find_executable(x_screensaver[x_env]):
-                print("XSCREENSAVER has been found")
-            else:
-                print("XSCREENSAVER has not been found")
-        print("\n")
-elif AVAILDE == "N":
-    print("Not displaying the available desktop environments")
+if config.has_option("DESKTOP", "env"):
+    print("")
+else:
+    AVAILDE = input("Would you like to see the available desktop environments? [Y/N]")
+    AVAILDE = AVAILDE.upper()
+    if AVAILDE == "Y":
+            gnome_screensaver = {'GNOME': 'gnome-screensaver'}
+            for gnome_env in gnome_screensaver:
+                if find_executable(gnome_screensaver[gnome_env]):
+                    print("GNOME has been found")
+                else:
+                    print("GNOME has not found")
+            mate_screensaver = {'MATE': 'mate-screensaver-command'}
+            for mate_env in mate_screensaver:
+                if find_executable(mate_screensaver[mate_env]):
+                    print("MATE has been found")
+                else:
+                    print("MATE has not been found")
+            x_screensaver = {'XSCREENSAVER': 'xscreensaver'}
+            for x_env in x_screensaver:
+                if find_executable(x_screensaver[x_env]):
+                    print("XSCREENSAVER has been found")
+                else:
+                    print("XSCREENSAVER has not been found")
+            print("")
+    elif AVAILDE == "N":
+        print("Not displaying the available desktop environments")
 #Select Desktop Environment menu
 if SELECT_ENV == 1:
     #Detects if these desktop evironments are available
