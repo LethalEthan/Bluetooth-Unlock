@@ -45,7 +45,7 @@ SELECT_ENV = 1 #For setup when no config is found
 if config.has_option("VERSION", "version"):
     VERSION = config.get("VERSION", "version")
 else:
-    sys.exit("VERSION NOT FOUND!")
+    sys.exit("VERSION NOT FOUND IN CONFIG!")
 UPDATE = input("Would you like to check for an update? [Y/N]")
 UPDATE = UPDATE.upper()
 if UPDATE == "Y":
@@ -88,6 +88,7 @@ if config.has_option("DEVICEADDR", "deviceaddr"):
     print("Device Adress found in config, using the one specified \n")
     GET_DEVICEADDR = 0
     DEVICEADDR = config.get("DEVICEADDR", "deviceaddr")
+#Detects if these desktop evironments are available
 if config.has_option("DESKTOP", "env"):
     print("")
 else:
@@ -117,7 +118,6 @@ else:
         print("Not displaying the available desktop environments")
 #Select Desktop Environment menu
 if SELECT_ENV == 1:
-    #Detects if these desktop evironments are available
     ENV = input("""Please Enter your Desktop Environment can be:
     "LOGINCTL" (Recommended) (Don't use sudo)
     "KDE" (Doesn"t work on older versions)
