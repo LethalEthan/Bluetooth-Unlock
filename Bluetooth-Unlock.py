@@ -193,7 +193,22 @@ mode = "unlocked"
 while True:
     tries = 0
     while tries < CHECKREPEAT:
-        process = subprocess.Popen(["sudo", "l2ping", DEVICEADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
+        check = ('LC_ALL=C /bin/l2ping ', DEVICEADDR, ' -t 1 -c 1')
+        (retcode, err) = subprocess.getstatusoutput(check)
+
+        if DEBUG == "Y":
+            print("Status: {}\nOutput: '{}'".format(retcode, err))
+
+            if retcode < 0:
+                print("Child was terminated by signal", -retcode)
+            else:
+                print("Child returned", retcode)
+
+        if err == 'Can\'t create socket: Operation not permitted':
+            process = subprocess.Popen(["sudo", "l2ping", DEVICEADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
+        else:
+            process = subprocess.Popen(["l2ping", DEVICEADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
+
         process.wait()
         if process.returncode == 0:
             print("ping OK")
