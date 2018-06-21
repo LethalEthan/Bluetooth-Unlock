@@ -1,35 +1,5 @@
 A file stating developments in Bluetooth-Unlock
 DD/MM/YYYY HH:MM
-27/04/2018 17:50:-
--Update feature is almost ready to implement
-
-27/04/2018 21:40:-
--Update detection implemented
--Auto-Update postponed
-
-02/05/2018 19:40:-
--Fixed install.sh root detection
--Fixed config issue
--IF NEWVERSION IS IN CONFIG.INI DELETE THAT SECTION AS IT MAY AFFECT UPDATE DETECTION!
--Changed from optparse to argparse
--Can now be ran from ./
--Made aptinstallfail to installfail for use with other package managers
-
-10/05/2018 21:10:-
--Added would you like to update option
-
-16/05/2018 21:50:-
--ecloud servers under maintenance for updates
-
-18/05/2018 21:30:-
--Servers updated
-
-21/05/2018 20:05:-
--ecloud is down due to isp being under maintenance sorry about that :/
-
-26/05/2018 15:00:-
--Due to our internet cables being severed ecloud and the update service will be down for 5 days, sorry about that
-
 27/05/2018 23:40:-
 -The update service is working but MAY cut out at times
 -BUV1 RC 6.2 is released
@@ -38,6 +8,12 @@ DD/MM/YYYY HH:MM
 -The update service is online and working
 
 09/06/18 20:15:-
--I've got an email from a site from piece, where they sell source code they have proposed the idea that
-I could sell my program on there,I just want to put out there, I want to keep this software free and under the MIT license forever
+-I've got an email from a site called piece,
+where they sell source code they have proposed the idea that I could sell my program on there 
+I want to keep this software free and under the MIT license forever
 free for everyone, free to modify :) to earn money from my projects I will add a donation link instead
+
+21/06/18 19:40:-
+-Forgot to put in here that I added a donation link on the website (https://lethalethan.github.io/Bluetooth-Unlock/)
+so hopefully I can create more useful projects in the near future
+-Don't forget to leave any project ideas in the issue section which I should do
