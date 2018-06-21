@@ -1,3 +1,6 @@
+# Branch Info
+This branch is experimental, it has unfinished ideas/features and may not work properly
+
 # Bluetooth-Unlock
 Unlock your Linux Computer using a Bluetooth device when nearby
 
