@@ -9,14 +9,14 @@ import time
 import getpass
 import configparser
 #import zipfile #For upcoming auto-update feature
-import tarfile #For upcoming auto-update feature
+#import tarfile #For upcoming auto-update feature
 try:
     import bluetooth
     from bluetooth import *
     import bluetooth._bluetooth as bt
 except:
-    print ("Cannot import the bluetooth modules!")
-    print ("Please run install.sh!")
+    print("Cannot import the bluetooth modules!")
+    print("Please run install.sh!")
     sys.exit(1)
 #Gets OS path for upcoming auto-update feature
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -56,7 +56,7 @@ if UPDATE == "Y":
     if config.has_option("NOTICES", "notices"):
         NOTICES = config.get("NOTICES", "notices")
     NEWVERSION = config.get("NEWVERSION", "newversion")
-    print (NOTICES,"\n")
+    print(NOTICES,"\n")
     if config.has_option("NEWVERSION", "newversion"):
         if NEWVERSION > VERSION:
             config.clear()
@@ -149,10 +149,16 @@ if SELECT_ENV == 1:
         config.write(configfile)
 
 elif SELECT_ENV == 0:
-    print ("Config found using specified desktop environment")
-    print (ENV)
+    print("Config found using specified desktop environment")
+    print(ENV)
+    print("")
 
-DEBUG = input("Would you like to activate debug mode? [Y/N]")#Debug mode prints extra information of what"s going on
+print("Bluetooth-Unlock is a free open-source project and always will be")
+print("I would like you to consider donating to allow me to do other projects")
+print("Thanks :)\n")
+
+#Debug mode prints extra information of what"s going on
+DEBUG = input("Would you like to activate debug mode? [Y/N]")
 DEBUG = DEBUG.upper()
 if DEBUG == "Y":
 	print("DEBUG is active")
@@ -162,62 +168,60 @@ else:
 	sys.exit("Unknown option")
 
 #Code containing thank you message and device detection
-print ("Thank you for using Bluetooth-Unlock",VERSION ,USER ,"\n")
+print("Thank you for using Bluetooth-Unlock",VERSION ,USER ,"\n")
 if GET_DEVICEADDR == 1:
-    print ("Searching for nearby devices...\n")
+    print("Searching for nearby devices...\n")
     nearby = discover_devices(lookup_names = True)
-    print (nearby,"\n")
+    print(nearby,"\n")
     DEVICEADDR = input("Enter Bluetooth Adress of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
     config["DEVICEADDR"] = {"DEVICEADDR": (DEVICEADDR)}
     with open("config.ini", "w") as configfile:
         config.write(configfile)
 elif GET_DEVICEADDR == 0:
-    print ("Device Address is", DEVICEADDR)
+    print("Device Address is", DEVICEADDR)
 #Prints information
 if DEBUG == "Y":
-    print ("This is the sections found in config.ini")
-    print (config.sections())
-    print ("Desktop Environment is", ENV)
-    print ("Device Address is",DEVICEADDR,"\n")
-    print("Thank you to these contributors: jose1711, maaudrana")
+    print("This is the sections found in config.ini")
+    print(config.sections())
+    print("Desktop Environment is", ENV)
+    print("Device Address is",DEVICEADDR,"\n")
+    print("Thank you to these contributors: jose1711, maaudrana, blackPanther OS")
     print("jose1711 has improved the code of this project")
     print("maaudrana is making a logo for this project")
-    print("Thanks to all of them :) \n")
+    print("blackPanther OS has improved/optimized the code of this project")
+    print("Thanks to all of them :)\n")
 
 #Variables for Main code
-CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked
+CHECKINTERVAL = 3 # device pinged at this interval (seconds) when screen is unlocked min:3
 CHECKREPEAT = 2  # device must be unreachable this many times to lock
 mode = "unlocked"
 
 #Main code for Bluetooth-Unlock
+#Return code 0 is when the command has ran successfully
+#Return code 1 is when the command has failed to reach the device
 while True:
     tries = 0
     while tries < CHECKREPEAT:
-        check = ('LC_ALL=C /bin/l2ping ', DEVICEADDR, ' -t 1 -c 1')
-        (retcode, err) = subprocess.getstatusoutput(check)
+        check = subprocess.Popen(["sudo", "l2ping", DEVICEADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
+        check.wait()
+        retcode = check.returncode
+        if retcode == 0 and DEBUG == "Y":
+            print("ping OK!")
+            break
+        else:
+            print("ping response code: %d" % (retcode))
+            time.sleep(1)
+            tries = tries + 1
 
-        if DEBUG == "Y":
-            print("Status: {}\nOutput: '{}'".format(retcode, err))
-
-            if retcode < 0:
-                print("Child was terminated by signal", -retcode)
-            else:
+            if retcode > 0:
+                print("Child was terminated by signal", retcode)
+            elif DEBUG == "Y":
                 print("Child returned", retcode)
 
-        if err == 'Can\'t create socket: Operation not permitted':
-            process = subprocess.Popen(["sudo", "l2ping", DEVICEADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
-        else:
-            process = subprocess.Popen(["l2ping", DEVICEADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
+        if retcode == "Can\'t create socket: Operation not permitted":
+            print("Couldn't create a socket due to permissions")
 
-        process.wait()
-        if process.returncode == 0:
-            print("ping OK")
-            break
-        print("ping response code: %d" % (process.returncode))
-        time.sleep(1)
-        tries = tries + 1
-
-    if process.returncode == 0 and mode == "locked":
+    if retcode == 0 and mode == "locked":
         mode = "unlocked"
         if ENV == "LOGINCTL":
             os.system("loginctl unlock-session")
@@ -232,7 +236,7 @@ while True:
         elif ENV == "CINNAMON":
             os.system("cinnamon-screensaver-command -d")
 
-    if process.returncode == 1 and mode == "unlocked":
+    if retcode == 1 and mode == "unlocked":
         mode = "locked"
         if ENV == "LOGINCTL":
             os.system("loginctl lock-session")
