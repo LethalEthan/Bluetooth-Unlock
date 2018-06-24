@@ -17,3 +17,10 @@ free for everyone, free to modify :) to earn money from my projects I will add a
 -Forgot to put in here that I added a donation link on the website (https://lethalethan.github.io/Bluetooth-Unlock/)
 so hopefully I can create more useful projects in the near future
 -Don't forget to leave any project ideas in the issue section which I should do
+
+22/06/18 20:40:-
+-Got the new script in the expermental branch working I have been testing it but it may or may not work for your distro
+if so, please say in the issue section and make sure you include the branch info,
+I am currently setting up VM's to test if they work on that distro
+but it seems that virtualbox doesn't want to work (typical) I am determined to make it work so testing is easier
+and more precise.
