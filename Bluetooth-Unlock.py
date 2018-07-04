@@ -8,8 +8,6 @@ import subprocess
 import time
 import getpass
 import configparser
-#import zipfile #For upcoming auto-update feature
-#import tarfile #For upcoming auto-update feature
 try:
     import bluetooth
     from bluetooth import *
@@ -42,8 +40,8 @@ SELECT_ENV = 1 #For setup when no config is found
 if config.has_option("VERSION", "version"):
     VERSION = config.get("VERSION", "version")
 else:
-    sys.exit("VERSION NOT FOUND!")
-UPDATE = input("Would you like to check for an update? [Y/N]")
+    sys.exit("VERSION/CONFIG NOT FOUND!")
+UPDATE = input("Would you like to check for an update? [Y/N] ")
 UPDATE = UPDATE.upper()
 if UPDATE == "Y":
     print("Downloading Update.ini from ecloud...")
@@ -52,13 +50,18 @@ if UPDATE == "Y":
     config.read("Update.ini")
     if config.has_option("NOTICES", "notices"):
         NOTICES = config.get("NOTICES", "notices")
-    NEWVERSION = config.get("NEWVERSION", "newversion")
+    else:
+        print("Cannot find any notices, Download may have failed!")
+    if config.has_option("NEWVERSION", "newversion"):
+        NEWVERSION = config.get("NEWVERSION", "newversion")
+    else:
+        print("Cannot find new version!")
     print(NOTICES,"\n")
     if config.has_option("NEWVERSION", "newversion"):
         if NEWVERSION > VERSION:
             config.clear()
             print("New version found:", NEWVERSION)
-            UPDATE_C = input("Would you like to Download updates? [Y/N]")
+            UPDATE_C = input("Would you like to Download updates? [Y/N] ")
             UPDATE_C = UPDATE_C.upper()
             if UPDATE_C == "Y":
                 print("Downloading Update from ecloud...")
@@ -76,7 +79,7 @@ if UPDATE == "Y":
             config.clear()
             print("If you see this message then config has no version information!")
 elif UPDATE == "N":
-    print("Not checking for updates!")
+    print("\nNot checking for updates!")
 else:
     print("Unknown response!")
 config.read("config.ini")
@@ -97,7 +100,7 @@ if config.has_option("DEVADDR", "devaddr"):
 time.sleep(3)
 #User can see what Desktop Environments are available (not all are detected)
 if SELECT_ENV == 1:
-    AVAILDE = input("\nWould you like to see the available desktop environments? [Y/N]")
+    AVAILDE = input("\nWould you like to see the available desktop environments? [Y/N] ")
     AVAILDE = AVAILDE.upper()
     if AVAILDE == "Y":
             gnome_screensaver = {'GNOME': 'gnome-screensaver'}
@@ -125,7 +128,6 @@ if SELECT_ENV == 1:
 #Select Desktop Environment menu
 if SELECT_ENV == 1:
     #Detects if these desktop evironments are available
-    print("")
     ENV = input("""Please Enter your Desktop Environment can be:
     "LOGINCTL" (Recommended) (Don't use sudo)
     "KDE" (Doesn"t work on older versions)
@@ -155,10 +157,11 @@ if SELECT_ENV == 1:
 
 print("\nBluetooth-Unlock is a free open-source project and always will be")
 print("I would like you to consider donating to allow me to do other projects")
+print("The donation links are on the website: https://lethalethan.github.io/Bluetooth-Unlock/")
 print("Thanks :)\n")
 
 #Debug mode prints extra information of what's going on
-DEBUG = input("Would you like to activate debug mode? [Y/N]")
+DEBUG = input("Would you like to activate debug mode? [Y/N] ")
 DEBUG = DEBUG.upper()
 if DEBUG == "Y":
 	print("DEBUG is active")
@@ -240,7 +243,7 @@ while True:
         elif ENV == "CINNAMON":
             os.system("cinnamon-screensaver-command -d")
 
-    #Locks when the device ISN'T be found
+    #Locks when the device ISN'T found
     if retcode > 0 and mode == "unlocked":
         mode = "locked"
         if ENV == "LOGINCTL":
