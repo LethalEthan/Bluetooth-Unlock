@@ -24,9 +24,5 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. Linux: Debian, Ubuntu, Manjaro, Arch etc]
  - Version [e.g. BU-V1 RC6.2]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. Android, iphone, Windows Phone etc]
- - OS: [e.g. Android, IOS, Windows phone OS etc]
-
 **Additional context**
 Add any other context about the problem here.
