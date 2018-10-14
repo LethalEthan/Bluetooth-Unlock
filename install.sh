@@ -7,7 +7,7 @@ fi
 
 echo "============================================="
 echo "Bluetooth Unlock Tool For Linux Distributions"
-echo "            Setup Version V.7.0              "
+echo "            Setup Version V.8.0              "
 echo "============================================="
 
 #5 second countdown timer
