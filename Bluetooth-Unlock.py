@@ -51,11 +51,13 @@ if UPDATE == "Y":
     if config.has_option("NOTICES", "notices"):
         NOTICES = config.get("NOTICES", "notices")
     else:
+        NOTICES = "DOWNLOAD FAILED!"
         print("Cannot find any notices, Download may have failed!")
     if config.has_option("NEWVERSION", "newversion"):
         NEWVERSION = config.get("NEWVERSION", "newversion")
     else:
-        print("Cannot find new version!")
+        NEWVERSION = 0
+        print("Cannot find new version, Download may have failed!")
     print(NOTICES,"\n")
     if config.has_option("NEWVERSION", "newversion"):
         if NEWVERSION > VERSION:
