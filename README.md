@@ -1,5 +1,5 @@
 # Branch Info
-This branch is Experimental, it has unfinished ideas/features and may not work properly
+This branch is Stable, it will be behind on features but will work and be stable (working properly)
 
 # Bluetooth-Unlock
 Unlock your Linux Computer using a Bluetooth device when nearby
@@ -15,4 +15,4 @@ Step 1: Download the files
 
 Step 2: Run install.sh (mandatory)
 
-Step 3: Run Bluetooth-Unlock.py using: python3 Bluetooth-Unlock.py (if using loginctl don't use sudo)
+Step 3: Run Bluetooth-Unlock.py using: python3 Bluetooth-Unlock.py
