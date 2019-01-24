@@ -44,8 +44,8 @@ else:
 UPDATE = input("Would you like to check for an update? [Y/N] ")
 UPDATE = UPDATE.upper()
 if UPDATE == "Y":
-    print("Downloading Update.ini from ecloud...")
-    os.system("wget -q -O Update.ini https://ecloud.zapto.org/index.php/s/AKeEkGxC2nww2KX/download")
+    print("Downloading Update.ini from GitHub...")
+    os.system("wget -q -O Update.ini https://lethalethan.github.io/Bluetooth-Unlock/downloads/update.ini")
     print("Done!\n")
     config.read("Update.ini")
     if config.has_option("NOTICES", "notices"):
@@ -66,8 +66,8 @@ if UPDATE == "Y":
             UPDATE_C = input("Would you like to Download updates? [Y/N] ")
             UPDATE_C = UPDATE_C.upper()
             if UPDATE_C == "Y":
-                print("Downloading Update from ecloud...")
-                os.system("wget -q -O Update.tar.gz https://ecloud.zapto.org/index.php/s/7CM8NtHjZfDr9KS/download")
+                print("Downloading Update from GitHub...")
+                os.system("wget -q -O Update.tar.gz https://lethalethan.github.io/Bluetooth-Unlock/downloads/zip/Bluetooth-Unlock-BU-V1-Stable.zip")
                 print("Downloaded!, please extract new files in current directory!")
             else:
                 print("Not downloading update")
