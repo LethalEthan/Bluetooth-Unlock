@@ -25,13 +25,6 @@ I am currently setting up VM's to test if they work on that distro
 but it seems that virtualbox doesn't want to work (typical) I am determined to make it work so testing is easier
 and more precise.
 
-14/10/2018 14:45:-
--Main Server for the update service is under maintenance and should be back online later on
--Back up Server for the update service is online
--BU-V1RC8 is a bug fix release designed to fix when the update service is offline and the script can't continue,
-and also to verify that the back up server is working
--Later on I will implement a better system for updates
-
 01/01/2018 00:45:-
 -Hello to everyone who has used Bluetooth-Unlock, Happy new year!, I have had a long time away from Bluetooth-Unlock, due
 to having some personal issues (2 family members have died, and 3 have cancer, one of which died due to it being terminal)
