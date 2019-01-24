@@ -1,5 +1,5 @@
 # Branch Info
-This branch is Stable, it will be behind on features but will work and be stable (working properly)
+This branch is Experimental, things may not work correctly
 
 # Bluetooth-Unlock
 Unlock your Linux Computer using a Bluetooth device when nearby
