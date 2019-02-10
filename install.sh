@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 #Checking for root
 if [[ "$EUID" -ne 0 ]]; then
   echo "Please run as root, so sudo password isn't required later on..."
