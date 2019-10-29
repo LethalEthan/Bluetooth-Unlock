@@ -298,7 +298,7 @@ def main_bu_code():
         while tries < CHECKREPEAT:
             #Checks for the device
             time.sleep(CHECKINTERVAL)
-            check = subprocess.Popen(["sudo", "l2ping", DEVADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
+            check = subprocess.Popen(["l2ping", DEVADDR, "-t", "1", "-c", "1"], shell=False, stdout=subprocess.PIPE)
             check.wait()
             retcode = check.returncode
             if retcode == 0 and DEBUG == "Y":
@@ -349,6 +349,7 @@ def main_bu_code():
                     time.sleep(1)
                 else:
                     time.sleep(CHECKINTERVAL)
+
 check_version()
 check_update()
 load_options()
