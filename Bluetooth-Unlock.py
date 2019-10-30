@@ -276,11 +276,11 @@ def print_debug_info():
     else: time.sleep(1)
 
 def print_contributors():
-    print("\nThank you to these contributors: jose1711, maaudrana, blackPanther OS, jellykells")
-    print("jose1711 has improved the code of this project")
-    print("maaudrana is making a logo for this project")
-    print("blackPanther OS has improved/optimized the code of this project")
-    print("jellykells Fixed a bug")
+    print("\nThank you to these contributors: jose1711, maaudrana, blackPanther OS, jellykells, chfanghr")
+#    print("jose1711 has improved the code of this project")
+#    print("maaudrana is making a logo for this project")
+#    print("blackPanther OS has improved/optimized the code of this project")
+#    print("jellykells Fixed a bug")
     print("Thanks to all of them :)\n")
     time.sleep(4)
 #Variables for Main code
