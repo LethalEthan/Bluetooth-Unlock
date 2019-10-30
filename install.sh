@@ -95,3 +95,6 @@ elif [[ $bluedepfail == "1" ]]; then
   echo "Pip has failed"
   exit 1
 fi
+
+# So that there is no need to use sudo in the program...
+sudo setcap cap_net_raw+ep /usr/bin/l2ping
