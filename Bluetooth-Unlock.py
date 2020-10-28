@@ -223,7 +223,7 @@ def select_env():
             else: print("Please enter a valid option")
             #Saves option
         config["DESKTOP"] = {"ENV": (ENV)}
-        with open("config.ini", "a") as configfile:
+        with open("config.ini", "w") as configfile:
             config.write(configfile)
 
 def message():
@@ -259,7 +259,7 @@ def get_device_address():
         global DEVADDR
         DEVADDR = input("Enter Bluetooth Address of the device (e.g AA:BB:CC:DD:EE:FF): ")#Asks for bluetooth device address
         config["DEVADDR"] = {"DEVADDR": (DEVADDR)}
-        with open("config.ini", "a") as configfile:
+        with open("config.ini", "w") as configfile:
             config.write(configfile)
     elif GET_DEVADDR == 0:
         print("Device Address is", DEVADDR)
