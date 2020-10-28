@@ -7,7 +7,7 @@ fi
 
 echo "============================================="
 echo "Bluetooth Unlock Tool For Linux Distributions"
-echo "            Setup Version V.8.0              "
+echo "            Setup Version V.8.1              "
 echo "============================================="
 
 #5 second countdown timer
@@ -70,6 +70,14 @@ elif [[ -n "$(echo $release | grep -i Gentoo )" ]]; then
   echo "Using Yum on Gentoo!"
   echo "WARNING: This hasn't been tested on a Gentoo system, it may not work!"
   yum install python3 python3-pip bluetooth libbluetooth-dev tar || installfail=1
+  sudo -H -u $USER python3 -m pip install pybluez || bluedepfail=1
+  echo "Install complete! please run Bluetooth-Unlock.py"
+
+#Install for POP!-OS
+elif [[ -n "$(echo $release | grep -i Pop)" ]]; then
+  echo "Using APT on POP!-OS!"
+  sudo apt update
+  sudo apt install -y python3 python3-pip bluetooth libbluetooth-dev tar || installfail=1
   sudo -H -u $USER python3 -m pip install pybluez || bluedepfail=1
   echo "Install complete! please run Bluetooth-Unlock.py"
 
