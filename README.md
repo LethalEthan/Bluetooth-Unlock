@@ -1,6 +1,6 @@
 # Branch Info
 This branch is Stable, it should work properly
-# Note: This project will no longer recieve updates by me as it is considered stable
+# Note: This project will only recieve OS-support and critical updates by me as it is considered stable
 # Bluetooth-Unlock
 Unlock your Linux Computer using a Bluetooth device when nearby
 
