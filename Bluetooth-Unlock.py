@@ -312,7 +312,7 @@ def main_bu_code():
 
             if retcode == "Can\'t create socket: Operation not permitted":
                 print("Couldn't create a socket due to permissions")
-
+            else:
                 #Unlocks when the device IS found
                 if retcode == 0 and mode == "locked":
                     mode = "unlocked"
