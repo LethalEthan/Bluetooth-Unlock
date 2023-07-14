@@ -59,7 +59,7 @@ elif [[ -n "$(echo $release | grep -i blackPanther)" ]]; then
 
 #Install for Fedora
 elif [[ -n "$(echo $release | grep -i Fedora )" ]]; then
-  echo "Using Yum on Fedora!"
+  echo "Using Dnf (or yum) on Fedora!"
   pkger=`which yum || which dnf`
   $pkger install python3 python3-pip python3-bluez bluez-libs tar || installfail=1
   echo "Install complete! please run Bluetooth-Unlock.py"
