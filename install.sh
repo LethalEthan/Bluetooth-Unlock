@@ -44,8 +44,7 @@ elif [[ -n "$(echo $release | grep -i Debian)" ]]; then
   echo "Using APT on Debian!"
   echo "WARNING: This hasn't been tested on a Debian system, it may not work!"
   sudo apt-get update
-  sudo apt-get install -y python3 python3-pip bluetooth libbluetooth-dev tar || installfail=1
-  sudo -H -u $USER python3 -m pip install pybluez || bluedepfail=1
+  sudo apt-get install -y python3 python3-bluez bluetooth libbluetooth-dev tar || installfail=1
   echo "Install complete! please run Bluetooth-Unlock.py"
 
 #Install for blackPanther
